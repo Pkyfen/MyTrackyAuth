@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.mytracky.dto.RegistrationUserDto;
 import ru.mytracky.dto.UserDto;
 import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
@@ -22,8 +23,15 @@ public class UserRestControllerV1 {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id, @RequestHeader(name = "Authorization") String a){
+    public ResponseEntity<UserDto> getUserById(
+            @PathVariable(name = "id") Long id,
+            @RequestHeader(name = "Authorization") String a){
+
         User user = userService.findById(id);
+
+        if(!user.getUsername().equals(jwtTokenProvider.getUsername(a.substring(7)))){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -32,6 +40,17 @@ public class UserRestControllerV1 {
         UserDto result = UserDto.fromUser(user);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<RegistrationUserDto> registrationUser(
+            @RequestBody  RegistrationUserDto userDto){
+
+        if(userService.findByUsername(userDto.getUsername())!=null) return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        User newUser = userService.register(userDto.toUser());
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
 
