@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.mytracky.controller.exception.ApiError;
 import ru.mytracky.dto.RegistrationUserDto;
 import ru.mytracky.dto.UserDto;
 import ru.mytracky.model.User;
@@ -29,12 +30,12 @@ public class UserRestControllerV1 {
 
         User user = userService.findById(id);
 
-        if(!user.getUsername().equals(jwtTokenProvider.getUsername(a.substring(7)))){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        if(!user.getUsername().equals(jwtTokenProvider.getUsername(a.substring(7)))){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         UserDto result = UserDto.fromUser(user);
@@ -42,15 +43,17 @@ public class UserRestControllerV1 {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/registration")
-    public ResponseEntity<RegistrationUserDto> registrationUser(
-            @RequestBody  RegistrationUserDto userDto){
 
-        if(userService.findByUsername(userDto.getUsername())!=null) return new ResponseEntity<>(HttpStatus.CONFLICT);
-
-        User newUser = userService.register(userDto.toUser());
-
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteUsers(
+            @PathVariable(name = "id") Long id,
+            @RequestHeader(name = "Authorization") String token){
+        if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
+            userService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
 
