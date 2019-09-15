@@ -11,8 +11,11 @@ import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
 import ru.mytracky.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/v1/users/")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserRestControllerV1 {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -23,11 +26,19 @@ public class UserRestControllerV1 {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @GetMapping()
+    public List<User> getAllUsers(){
+        return userService.getAll();
+    }
+
+
     @GetMapping(value = "{id}")
     public ResponseEntity<UserDto> getUserById(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "id") String id,
             @RequestHeader(name = "Authorization") String a){
 
+        System.out.println(a);
+        System.out.println(id + " TEST");
         User user = userService.findById(id);
 
         if(user == null){
@@ -46,7 +57,7 @@ public class UserRestControllerV1 {
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Object> deleteUsers(
-            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "id") String id,
             @RequestHeader(name = "Authorization") String token){
         if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
             userService.delete(id);
@@ -56,5 +67,9 @@ public class UserRestControllerV1 {
         }
     }
 
+    @GetMapping("test")
+    public ResponseEntity<Object> test(){
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

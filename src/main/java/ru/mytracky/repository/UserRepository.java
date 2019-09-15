@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.mytracky.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
     User findByUsername(String name);
+    User findByEmail(String email);
 }

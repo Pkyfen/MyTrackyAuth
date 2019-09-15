@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class JwtUser implements UserDetails {
 
-    private final Long id;
+    private final String id;
     private final String username;
     private final String firstName;
     private final String lastName;
@@ -20,7 +20,7 @@ public class JwtUser implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtUser(
-            Long id,
+            String id,
             String username,
             String firstName,
             String lastName,
@@ -41,7 +41,7 @@ public class JwtUser implements UserDetails {
     }
 
     @JsonIgnore
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

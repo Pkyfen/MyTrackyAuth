@@ -57,9 +57,9 @@ public class JwtTokenProvider  {
                 .compact();
     }
 
-    public String createToken(String username, Long id, List<Role> roles) {
+    public String createToken(String username, String id, List<Role> roles) {
 
-        Claims claims = Jwts.claims().setSubject(username).setId(String.valueOf(id));
+        Claims claims = Jwts.claims().setSubject(username).setId(id);
         claims.put("roles", getRoleNames(roles));
 
         Date now = new Date();

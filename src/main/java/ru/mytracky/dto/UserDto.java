@@ -7,7 +7,7 @@ import ru.mytracky.model.User;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
-    private Long id;
+    private String id;
     private String username;
     private String firstName;
     private String lastName;

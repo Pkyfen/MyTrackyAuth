@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(value = "/api/v1/auth/")
+@RequestMapping(value = "/api/v1/login")
 public class AuthenticationRestControllerV1 {
 
     private final AuthenticationManager authenticationManager;
@@ -35,7 +35,7 @@ public class AuthenticationRestControllerV1 {
         this.userService = userService;
     }
 
-    @PostMapping("login")
+    @PostMapping()
     public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
         try {
             String username = requestDto.getUsername();
@@ -47,6 +47,8 @@ public class AuthenticationRestControllerV1 {
             }
 
             String token = jwtTokenProvider.createToken(username, user.getId(), user.getRoles());
+
+            System.out.println(token);
 
             Map<Object, Object> response = new HashMap<>();
             response.put("username", username);

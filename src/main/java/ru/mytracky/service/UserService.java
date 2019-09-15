@@ -12,7 +12,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User findById(Long id);
+    User findById(String id);
 
-    void delete(Long id);
+    void delete(String id);
 }

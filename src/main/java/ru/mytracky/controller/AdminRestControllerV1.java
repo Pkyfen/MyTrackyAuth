@@ -23,7 +23,7 @@ public class AdminRestControllerV1 {
     }
 
     @GetMapping(value = "users/{id}")
-    public ResponseEntity<AdminUserDto> getUserById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<AdminUserDto> getUserById(@PathVariable(name = "id") String id) {
         User user = userService.findById(id);
 
         if (user == null) {
