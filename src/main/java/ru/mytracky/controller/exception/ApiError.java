@@ -45,6 +45,10 @@ public class ApiError {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "{\"status\":\"" + status + "\", \"message\":\"" + message + "\"}";
+    }
 
     public String getMessage() {
         return message;

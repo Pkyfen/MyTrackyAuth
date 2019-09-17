@@ -103,7 +103,11 @@ public class JwtTokenProvider  {
             }
 
             return true;
+//        }catch (ExpiredJwtException e){
+//            System.out.println(e);
+//            return false;
         } catch (JwtException | IllegalArgumentException e) {
+//            System.out.println(e);
 //            throw new JwtAuthenticationException("JWT token is expired or invalid");
             return false;
         }
