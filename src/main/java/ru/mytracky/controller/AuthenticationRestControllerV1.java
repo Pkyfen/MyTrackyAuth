@@ -62,7 +62,7 @@ public class AuthenticationRestControllerV1 {
 
             return ResponseEntity.ok(response);
         } catch (UsernameNotFoundException e) {
-            return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND, "Users not registered"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ApiError(HttpStatus.NOT_FOUND, "User not registered"), HttpStatus.NOT_FOUND);
         }catch (AuthenticationException e){
             return new ResponseEntity<>(new ApiError(HttpStatus.FORBIDDEN,"invalid password"), HttpStatus.FORBIDDEN);
         }
