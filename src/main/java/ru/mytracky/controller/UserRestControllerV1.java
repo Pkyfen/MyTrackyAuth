@@ -11,6 +11,7 @@ import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
 import ru.mytracky.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,27 +28,30 @@ public class UserRestControllerV1 {
     }
 
     @GetMapping()
-    public List<User> getAllUsers(){
-        return userService.getAll();
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        List<User> usersList = userService.getAll();
+        List<UserDto>usersDtoList = new ArrayList<>();
+
+        for(User u:usersList){
+            usersDtoList.add(UserDto.fromUser(u));
+        }
+        return new ResponseEntity<>(usersDtoList,HttpStatus.OK);
     }
 
 
     @GetMapping(value = "{id}")
     public ResponseEntity<UserDto> getUserById(
-            @PathVariable(name = "id") String id,
-            @RequestHeader(name = "Authorization") String a){
+            @PathVariable(name = "id") String id){
 
-        System.out.println(a);
-        System.out.println(id + " TEST");
         User user = userService.findById(id);
 
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        if(!user.getUsername().equals(jwtTokenProvider.getUsername(a.substring(7)))){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+//        if(!user.getUsername().equals(jwtTokenProvider.getUsername(a.substring(7)))){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         UserDto result = UserDto.fromUser(user);
 
