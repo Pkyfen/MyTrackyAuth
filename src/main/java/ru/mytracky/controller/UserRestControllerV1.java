@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/users/")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping(value = "/api/v1/users")
 public class UserRestControllerV1 {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -39,7 +38,7 @@ public class UserRestControllerV1 {
     }
 
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getUserById(
             @PathVariable(name = "id") String id){
 
@@ -59,7 +58,7 @@ public class UserRestControllerV1 {
     }
 
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteUsers(
             @PathVariable(name = "id") String id,
             @RequestHeader(name = "Authorization") String token){
