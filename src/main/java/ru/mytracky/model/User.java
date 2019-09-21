@@ -1,6 +1,7 @@
 package ru.mytracky.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,6 +34,11 @@ public class User extends BaseEntity {
             @JoinColumn(name = "role_id", referencedColumnName = "id")
     })
     private List<Role> roles;
+
+    @OneToMany
+    @JoinTable(name = "user_tracks")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private List<Track> tracks;
 
     @Override
     public String toString() {

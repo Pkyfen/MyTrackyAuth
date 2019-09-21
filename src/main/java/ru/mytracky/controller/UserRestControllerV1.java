@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mytracky.controller.exception.ApiError;
 import ru.mytracky.dto.RegistrationUserDto;
+import ru.mytracky.dto.TrackDto;
 import ru.mytracky.dto.UserDto;
+import ru.mytracky.model.Track;
 import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
 import ru.mytracky.service.UserService;
@@ -70,9 +72,27 @@ public class UserRestControllerV1 {
         }
     }
 
-    @GetMapping("test")
-    public ResponseEntity<Object> test(){
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("{id}/track")
+    public ResponseEntity<UserDto> addTrack(
+            @PathVariable(name = "id") String id,
+            @RequestHeader(name = "Authorization") String token,
+            @RequestBody List<TrackDto> tracks){
+        if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
+            User user = userService.findById(id);
+            List<Track> newTracks = user.getTracks();
+            for(TrackDto t:tracks){
+                newTracks.add(t.toTrack());
+            }
+
+            user.setTracks(newTracks);
+
+            userService.save(user);
+
+            return new ResponseEntity<>(UserDto.fromUser(user), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
     }
 
 }
