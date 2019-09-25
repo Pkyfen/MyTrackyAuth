@@ -1,5 +1,6 @@
 package ru.mytracky.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import ru.mytracky.controller.exception.ApiError;
 import ru.mytracky.dto.RegistrationUserDto;
 import ru.mytracky.dto.TrackDto;
 import ru.mytracky.dto.UserDto;
+import ru.mytracky.dto.Views;
 import ru.mytracky.model.Track;
 import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
@@ -29,6 +31,7 @@ public class UserRestControllerV1 {
     }
 
     @GetMapping()
+    @JsonView(Views.IdName.class)
     public ResponseEntity<List<UserDto>> getAllUsers(){
         List<User> usersList = userService.getAll();
         List<UserDto>usersDtoList = new ArrayList<>();
@@ -41,6 +44,7 @@ public class UserRestControllerV1 {
 
 
     @GetMapping(value = "/{id}")
+    @JsonView(Views.FullMessage.class)
     public ResponseEntity<UserDto> getUserById(
             @PathVariable(name = "id") String id){
 
@@ -73,10 +77,12 @@ public class UserRestControllerV1 {
     }
 
     @PutMapping("{id}/track")
+    @JsonView(Views.FullMessage.class)
     public ResponseEntity<UserDto> addTrack(
             @PathVariable(name = "id") String id,
             @RequestHeader(name = "Authorization") String token,
             @RequestBody List<TrackDto> tracks){
+
         if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
             User user = userService.findById(id);
             List<Track> newTracks = user.getTracks();
@@ -85,7 +91,6 @@ public class UserRestControllerV1 {
             }
 
             user.setTracks(newTracks);
-
             userService.save(user);
 
             return new ResponseEntity<>(UserDto.fromUser(user), HttpStatus.OK);

@@ -1,6 +1,7 @@
 package ru.mytracky.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import ru.mytracky.model.Status;
 import ru.mytracky.model.Track;
@@ -11,8 +12,11 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrackDto {
+    @JsonView(Views.Id.class)
     private String id;
+    @JsonView(Views.IdName.class)
     private String name;
+    @JsonView(Views.FullMessage.class)
     private boolean isPrivate;
 
 
