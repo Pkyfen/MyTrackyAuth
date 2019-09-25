@@ -15,7 +15,8 @@ public class Track extends BaseEntity {
     @Column(name = "private")
     private boolean isPrivate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

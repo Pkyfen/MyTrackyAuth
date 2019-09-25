@@ -81,7 +81,7 @@ public class UserRestControllerV1 {
             User user = userService.findById(id);
             List<Track> newTracks = user.getTracks();
             for(TrackDto t:tracks){
-                newTracks.add(t.toTrack());
+                newTracks.add(t.toTrack(user));
             }
 
             user.setTracks(newTracks);

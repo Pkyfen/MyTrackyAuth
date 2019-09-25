@@ -35,8 +35,7 @@ public class User extends BaseEntity {
     })
     private List<Role> roles;
 
-    @OneToMany
-    @JoinTable(name = "user_tracks")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Track> tracks;
 
