@@ -38,7 +38,7 @@ public class AuthenticationRestControllerV1 {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> login(@RequestBody AuthenticationRequestDto requestDto) {
+    public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
         try {
             String username = requestDto.getUsername();
             System.out.println(username);
@@ -50,15 +50,11 @@ public class AuthenticationRestControllerV1 {
 
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
 
-
             String token = jwtTokenProvider.createToken(username, user.getId(), user.getRoles());
-
-            System.out.println(token);
 
             Map<Object, Object> response = new HashMap<>();
             response.put("username", username);
             response.put("token", token);
-
 
             return ResponseEntity.ok(response);
         } catch (UsernameNotFoundException e) {

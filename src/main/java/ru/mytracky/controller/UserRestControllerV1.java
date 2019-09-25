@@ -39,6 +39,7 @@ public class UserRestControllerV1 {
         for(User u:usersList){
             usersDtoList.add(UserDto.fromUser(u));
         }
+
         return new ResponseEntity<>(usersDtoList,HttpStatus.OK);
     }
 
@@ -49,14 +50,9 @@ public class UserRestControllerV1 {
             @PathVariable(name = "id") String id){
 
         User user = userService.findById(id);
-
         if(user == null){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-//        if(!user.getUsername().equals(jwtTokenProvider.getUsername(a.substring(7)))){
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
 
         UserDto result = UserDto.fromUser(user);
 
@@ -86,6 +82,7 @@ public class UserRestControllerV1 {
         if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
             User user = userService.findById(id);
             List<Track> newTracks = user.getTracks();
+
             for(TrackDto t:tracks){
                 newTracks.add(t.toTrack(user));
             }

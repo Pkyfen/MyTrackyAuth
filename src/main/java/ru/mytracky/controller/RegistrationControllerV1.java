@@ -26,7 +26,8 @@ public class RegistrationControllerV1 {
             @RequestBody RegistrationUserDto userDto){
 
         if(userService.findByUsername(userDto.getUsername())!=null){
-            return new ResponseEntity<>(new ApiError(HttpStatus.CONFLICT, "User already registered"),HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new ApiError(HttpStatus.CONFLICT, "User already registered"),
+                    HttpStatus.CONFLICT);
         }
 
         userService.register(userDto.toUser());

@@ -22,22 +22,12 @@ public class TrackRestControllerV1 {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public TrackRestControllerV1(TrackRepository trackRepository, UserService userService, JwtTokenProvider jwtTokenProvider) {
+    public TrackRestControllerV1(TrackRepository trackRepository,
+                                 UserService userService,
+                                 JwtTokenProvider jwtTokenProvider) {
         this.trackRepository = trackRepository;
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
-    }
-
-    @GetMapping()
-    public ResponseEntity<List<TrackDto>> getAllUsers() {
-        List<Track> trackList = trackRepository.findAll();
-        List<TrackDto> trackDtos = new ArrayList<>();
-
-        for (Track t : trackList) {
-            trackDtos.add(TrackDto.fromTrack(t));
-        }
-
-        return new ResponseEntity<>(trackDtos, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
