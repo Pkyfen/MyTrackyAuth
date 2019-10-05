@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AdminUserDto {
-    private String id;
+    private Long id;
     private String username;
     private String firstName;
     private String lastName;

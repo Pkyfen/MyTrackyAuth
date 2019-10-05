@@ -13,7 +13,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrackDto {
     @JsonView(Views.Id.class)
-    private String id;
+    private Long id;
     @JsonView(Views.IdName.class)
     private String name;
     @JsonView(Views.FullMessage.class)

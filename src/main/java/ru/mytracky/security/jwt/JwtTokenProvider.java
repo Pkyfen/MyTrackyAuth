@@ -2,6 +2,7 @@ package ru.mytracky.security.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,9 +58,9 @@ public class JwtTokenProvider  {
                 .compact();
     }
 
-    public String createToken(String username, String id, List<Role> roles) {
+    public String createToken(String username, Long id, List<Role> roles) {
 
-        Claims claims = Jwts.claims().setSubject(username).setId(id);
+        Claims claims = Jwts.claims().setSubject(username).setId(String.valueOf(id));
         claims.put("roles", getRoleNames(roles));
 
         Date now = new Date();
@@ -78,8 +79,8 @@ public class JwtTokenProvider  {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getId(String token){
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getId();
+    public Long getId(String token){
+        return Long.parseLong(Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getId());
     }
 
     public String getUsername(String token) {
@@ -103,13 +104,12 @@ public class JwtTokenProvider  {
             }
 
             return true;
-//        }catch (ExpiredJwtException e){
-//            System.out.println(e);
-//            return false;
-        } catch (JwtException | IllegalArgumentException e) {
-//            System.out.println(e);
-//            throw new JwtAuthenticationException("JWT token is expired or invalid");
+        }catch (ExpiredJwtException e){
+            System.out.println(e);
             return false;
+        } catch (JwtException | IllegalArgumentException e) {
+            System.out.println(e);
+            throw new JwtAuthenticationException("JWT token is expired or invalid");
         }
     }
 

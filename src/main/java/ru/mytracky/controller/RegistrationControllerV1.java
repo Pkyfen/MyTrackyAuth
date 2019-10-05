@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mytracky.controller.exception.ApiError;
+import ru.mytracky.controller.exception.UserAlreadyRegisteredException;
 import ru.mytracky.dto.RegistrationUserDto;
 import ru.mytracky.service.UserService;
 
@@ -26,8 +26,7 @@ public class RegistrationControllerV1 {
             @RequestBody RegistrationUserDto userDto){
 
         if(userService.findByUsername(userDto.getUsername())!=null){
-            return new ResponseEntity<>(new ApiError(HttpStatus.CONFLICT, "User already registered"),
-                    HttpStatus.CONFLICT);
+            throw new UserAlreadyRegisteredException(userDto.getUsername());
         }
 
         userService.register(userDto.toUser());

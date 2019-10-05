@@ -13,7 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
     @JsonView(Views.Id.class)
-    private String id;
+    private Long id;
     @JsonView(Views.IdName.class)
     private String username;
     @JsonView(Views.IdName.class)

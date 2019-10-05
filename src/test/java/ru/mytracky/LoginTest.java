@@ -52,7 +52,7 @@ public class LoginTest {
                 .content(asJsonString(new AuthenticationRequestDto("pkyfen","wrongPassword"))))
                 .andDo(print())
                 .andExpect(status().isForbidden())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("invalid password"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Bad credentials"));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class LoginTest {
                 .content(asJsonString(new AuthenticationRequestDto("wrongName","wrongPassword"))))
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User not registered"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User with username: wrongName not found"));
     }
 
 

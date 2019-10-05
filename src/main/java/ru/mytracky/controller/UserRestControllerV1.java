@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.mytracky.controller.exception.ApiError;
-import ru.mytracky.dto.RegistrationUserDto;
+import ru.mytracky.controller.exception.UserNotFoundException;
 import ru.mytracky.dto.TrackDto;
 import ru.mytracky.dto.UserDto;
 import ru.mytracky.dto.Views;
@@ -47,11 +46,11 @@ public class UserRestControllerV1 {
     @GetMapping(value = "/{id}")
     @JsonView(Views.FullMessage.class)
     public ResponseEntity<UserDto> getUserById(
-            @PathVariable(name = "id") String id){
+            @PathVariable(name = "id") Long id){
 
         User user = userService.findById(id);
         if(user == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+           throw new UserNotFoundException(id);
         }
 
         UserDto result = UserDto.fromUser(user);
@@ -62,7 +61,7 @@ public class UserRestControllerV1 {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteUsers(
-            @PathVariable(name = "id") String id,
+            @PathVariable(name = "id") Long id,
             @RequestHeader(name = "Authorization") String token){
         if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
             userService.delete(id);
@@ -75,7 +74,7 @@ public class UserRestControllerV1 {
     @PutMapping("{id}/track")
     @JsonView(Views.FullMessage.class)
     public ResponseEntity<UserDto> addTrack(
-            @PathVariable(name = "id") String id,
+            @PathVariable(name = "id") Long id,
             @RequestHeader(name = "Authorization") String token,
             @RequestBody List<TrackDto> tracks){
 
