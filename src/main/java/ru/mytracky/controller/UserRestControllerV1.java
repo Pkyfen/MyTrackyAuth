@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.mytracky.controller.exception.UserNotFoundException;
 import ru.mytracky.dto.TrackDto;
@@ -76,21 +77,16 @@ public class UserRestControllerV1 {
     public ResponseEntity<UserDto> addTrack(
             @PathVariable(name = "id") Long id,
             @RequestHeader(name = "Authorization") String token,
-            @RequestBody List<TrackDto> tracks){
+            @Validated @RequestBody TrackDto track){
 
-        if(jwtTokenProvider.getId(token.substring(7)).equals(String.valueOf(id))){
+        if(jwtTokenProvider.getId(token.substring(7))==id){
             User user = userService.findById(id);
-            List<Track> newTracks = user.getTracks();
-
-            for(TrackDto t:tracks){
-                newTracks.add(t.toTrack(user));
-            }
-
-            user.setTracks(newTracks);
+            user.addTrack(track.toTrack(user));
             userService.save(user);
 
             return new ResponseEntity<>(UserDto.fromUser(user), HttpStatus.OK);
         }else{
+            System.out.println(jwtTokenProvider.getId(token.substring(7))==1);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

@@ -58,4 +58,8 @@ public class User extends BaseEntity {
                 "username='" + username + '\'' +
                 '}';
     }
+
+    public void addTrack(Track track){
+        this.tracks.add(track);
+    }
 }
