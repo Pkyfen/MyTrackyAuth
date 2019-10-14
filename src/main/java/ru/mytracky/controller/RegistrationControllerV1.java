@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mytracky.controller.exception.UserAlreadyRegisteredException;
 import ru.mytracky.dto.RegistrationUserDto;
 import ru.mytracky.service.UserService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/v1/")
@@ -22,15 +23,8 @@ public class RegistrationControllerV1 {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<Object> registrationUser(
-            @RequestBody RegistrationUserDto userDto){
-
-        if(userService.findByUsername(userDto.getUsername())!=null){
-            throw new UserAlreadyRegisteredException(userDto.getUsername());
-        }
-
+    public ResponseEntity<Object> registrationUser(@Valid @RequestBody RegistrationUserDto userDto){
         userService.register(userDto.toUser());
-
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }
