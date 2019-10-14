@@ -36,13 +36,6 @@ public class SecurityTest {
     private UserService userService;
 
     @Test
-    public void accessDeniedTest() throws Exception {
-        this.mockMvc.perform(get("/"))
-                .andDo(print())
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
     public void accessOkTest() throws Exception{
         User user = userService.findByUsername("pkyfen");
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getId(), user.getRoles());

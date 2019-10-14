@@ -68,7 +68,7 @@ public class RegistrationTest {
                         "123"))))
                 .andDo(print())
                 .andExpect(status().isConflict())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Username 'pkyfen' already registered"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.Error").value("Entity already exist"));
     }
 
 }
