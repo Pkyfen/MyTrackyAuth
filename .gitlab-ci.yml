@@ -2,7 +2,7 @@ image: podkovyrovda/mytracky:test
 
 stages:
   - build
-  
+
 variables:
   DATABASE_USERNAME: "$DATABASE_USERNAME"
   DATABASE_PASSWORD: "$DATABASE_PASSWORD"
@@ -15,12 +15,8 @@ before_script:
   - mysqladmin -u "$DATABASE_USERNAME" -p"$DATABASE_PASSWORD" create "$TEST_DATABASE_NAME"
 
 build:
-  stage: build
+  stage: build  
   script:
-    - scp root@gitlab.podkovyrov.ru:/root/storage/application.properties src/main/resources
-    - scp root@gitlab.podkovyrov.ru:/root/storage/application-test.properties src/test/resources
-    - scp root@gitlab.podkovyrov.ru:/root/storage/CORSFilter.java src/main/java/ru/mytracky/filter
-    - mvn -Dmaven.test.skip=true package
-    - mv target/*.jar app.jar
-    - scp app.jar root@gitlab.podkovyrov.ru:/root/docker/server/src/
-    - ssh root@gitlab.podkovyrov.ru 'cd docker && docker-compose build server && docker-compose up -d server'
+    - mvn package -Dmaven.test.skip=true
+    - scp target/*.jar root@gitlab.podkovyrov.ru:/root/docker/server/src/app.jar
+    - ssh root@gitlab.podkovyrov.ru 'cd docker && docker-compose up -d --no-deps --build server'
