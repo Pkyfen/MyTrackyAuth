@@ -11,10 +11,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CORSFilter implements Filter {
+
+    @Value("${origin.url}")
+    private String originUrl;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,7 +29,7 @@ public class CORSFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
-        response.setHeader("Access-Control-Allow-Origin", "${ORIGIN_URL}");
+        response.setHeader("Access-Control-Allow-Origin", originUrl);
         response.setHeader("Access-Control-Allow-Methods",
                 "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Allow-Credentials", "true");
