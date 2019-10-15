@@ -1,13 +1,11 @@
-package ru.mytracky.controller;
+package ru.mytracky.controller.v1;
 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mytracky.dto.AdminUserDto;
-import ru.mytracky.dto.UserDto;
 import ru.mytracky.model.Track;
-import ru.mytracky.model.User;
 import ru.mytracky.repository.TrackRepository;
 import ru.mytracky.security.jwt.JwtTokenProvider;
 import ru.mytracky.service.UserService;

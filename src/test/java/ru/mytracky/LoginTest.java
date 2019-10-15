@@ -1,6 +1,5 @@
 package ru.mytracky;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.mytracky.controller.AuthenticationRestControllerV1;
+import ru.mytracky.controller.v1.AuthenticationRestControllerV1;
 import ru.mytracky.dto.AuthenticationRequestDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

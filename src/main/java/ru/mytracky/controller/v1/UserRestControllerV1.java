@@ -1,4 +1,4 @@
-package ru.mytracky.controller;
+package ru.mytracky.controller.v1;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.mytracky.controller.exception.UserNotFoundException;
 import ru.mytracky.dto.TrackDto;
-import ru.mytracky.dto.UserDto;
+import ru.mytracky.dto.user.UserDto;
 import ru.mytracky.dto.Views;
-import ru.mytracky.model.Track;
 import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
 import ru.mytracky.service.UserService;
@@ -34,7 +33,7 @@ public class UserRestControllerV1 {
     @JsonView(Views.IdName.class)
     public ResponseEntity<List<UserDto>> getAllUsers(){
         List<User> usersList = userService.getAll();
-        List<UserDto>usersDtoList = new ArrayList<>();
+        List<UserDto> usersDtoList = new ArrayList<>();
 
         for(User u:usersList){
             usersDtoList.add(UserDto.fromUser(u));

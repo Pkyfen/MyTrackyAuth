@@ -1,7 +1,6 @@
 package ru.mytracky;
 
 
-import com.jayway.jsonpath.JsonPath;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.mytracky.controller.RegistrationControllerV1;
+import ru.mytracky.controller.v1.RegistrationControllerV1;
 import ru.mytracky.dto.AuthenticationRequestDto;
 import ru.mytracky.dto.RegistrationUserDto;
 import ru.mytracky.service.UserService;

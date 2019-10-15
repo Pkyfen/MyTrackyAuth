@@ -1,4 +1,4 @@
-package ru.mytracky.controller;
+package ru.mytracky.controller.v1;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,10 @@
-package ru.mytracky.dto;
+package ru.mytracky.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import ru.mytracky.dto.TrackDto;
+import ru.mytracky.dto.Views;
 import ru.mytracky.model.Track;
 import ru.mytracky.model.User;
 
@@ -25,6 +27,7 @@ public class UserDto {
     @JsonView(Views.FullMessage.class)
     private List<TrackDto> tracks;
 
+//    @JsonView(Views.IdName.class)
     public User toUser(){
         User user = new User();
         user.setId(id);

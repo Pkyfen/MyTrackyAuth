@@ -16,8 +16,8 @@ public class Track extends BaseEntity {
     @NotBlank(message = "Track name " + NOT_EMPTY)
     private String name;
 
-    @Column(name = "private")
-    private boolean isPrivate;
+    @Column(name = "personal")
+    private boolean personal;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")

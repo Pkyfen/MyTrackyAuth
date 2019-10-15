@@ -143,6 +143,13 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="1.0.7" author="denis.podkovyrov">
+        <renameColumn tableName="tracks"
+                      oldColumnName="private"
+                      newColumnName="personal"
+        columnDataType="BOOLEAN"/>
+    </changeSet>
+
 
 
 </databaseChangeLog>

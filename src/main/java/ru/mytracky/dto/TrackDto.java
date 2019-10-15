@@ -17,17 +17,19 @@ import static ru.mytracky.model.EntityConstrainConstants.NOT_EMPTY;
 public class TrackDto {
     @JsonView(Views.Id.class)
     private Long id;
+
     @JsonView(Views.IdName.class)
     @NotBlank(message = "Track name " + NOT_EMPTY)
     private String name;
+
     @JsonView(Views.FullMessage.class)
-    private boolean isPrivate;
+    private boolean personal;
 
 
     public Track toTrack(User user){
         Track track = new Track();
         track.setId(id);
-        track.setPrivate(isPrivate);
+        track.setPersonal(personal);
         track.setName(name);
         track.setCreated(new Date());
         track.setUpdated(new Date());
@@ -40,8 +42,9 @@ public class TrackDto {
         TrackDto trackDto = new TrackDto();
         trackDto.setName(track.getName());
         trackDto.setId(track.getId());
-        trackDto.setPrivate(track.isPrivate());
+        trackDto.setPersonal(track.isPersonal());
 
         return trackDto;
     }
+
 }
