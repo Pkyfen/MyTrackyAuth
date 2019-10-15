@@ -1,8 +1,7 @@
 package ru.mytracky.controller.v1;
 
-import com.fasterxml.jackson.annotation.JsonView;
+
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,13 +10,11 @@ import ru.mytracky.controller.exception.UserNotFoundException;
 import ru.mytracky.dto.mapper.UserMapper;
 import ru.mytracky.dto.track.TrackDto;
 import ru.mytracky.dto.user.UserDto;
-import ru.mytracky.dto.Views;
 import ru.mytracky.dto.user.UserGetDto;
 import ru.mytracky.model.User;
 import ru.mytracky.security.jwt.JwtTokenProvider;
 import ru.mytracky.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,7 +62,6 @@ public class UserRestControllerV1 {
     }
 
     @PutMapping("{id}/track")
-    @JsonView(Views.FullMessage.class)
     public ResponseEntity<UserDto> addTrack(
             @PathVariable(name = "id") Long id,
             @RequestHeader(name = "Authorization") String token,
