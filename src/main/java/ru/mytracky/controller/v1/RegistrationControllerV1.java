@@ -23,8 +23,8 @@ public class RegistrationControllerV1 {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<Object> registrationUser(@Valid @RequestBody RegistrationUserDto userDto){
+    public RegistrationUserDto registrationUser(@Valid @RequestBody RegistrationUserDto userDto){
         userService.register(userDto.toUser());
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        return userDto;
     }
 }

@@ -2,6 +2,7 @@ package ru.mytracky.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import ru.mytracky.dto.track.TrackDto;
 import ru.mytracky.model.Status;
 import ru.mytracky.model.Track;
 import ru.mytracky.model.User;
